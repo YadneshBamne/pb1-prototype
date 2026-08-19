@@ -425,7 +425,9 @@ app.get('*', (req, res) => {
 });
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
-app.listen(PORT, () => console.log(`SmartCache AI backend running on :${PORT}`));
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => console.log(`SmartCache AI backend running on :${PORT}`));
+}
 
 // ─── Connect Services (non-blocking background) ───────────────────────────────
 async function connectRedis() {
@@ -462,3 +464,6 @@ async function connectMongo() {
 // Connect in background — server is already accepting requests
 connectRedis().catch(() => {});
 connectMongo().catch(() => {});
+
+export default app;
+
